@@ -11,7 +11,8 @@ module Pages
 
     # The method can accept different tabs: 'Home', 'My Network', 'Jobs', 'Messaging', 'Notifications'
     def visit_to_nav_link(nav_link)
-      puts "Visit to #{nav_link}"
+      puts "Visit to #{nav_link} page"
+
       click_link(nav_link)
     end
   end

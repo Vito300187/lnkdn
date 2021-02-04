@@ -18,14 +18,22 @@ module Pages
       @confirm_button = "//button[contain(text(), #{@enter_button_name}]"
     end
 
+    def input_login_field
+      fill_in(@login_field_username, with: MY_LOGIN)
+    end
+
+    def input_password_field
+      fill_in(@login_field_password, with: MY_PASSWORD)
+    end
+
     def sign_in
       puts "User #{MY_LOGIN} sign in"
 
       [
-        fill_in(@login_field_username, with: MY_LOGIN),
-        fill_in(@login_field_password, with: MY_PASSWORD),
+        input_login_field,
+        input_password_field,
         click_button(@enter_button_name)
-      ].each { |fill_in| ordinary_user_behaviour(fill_in); sleep 3 }
+      ].each { |fill_in| ordinary_user_behaviour(fill_in)}
     end
   end
 end

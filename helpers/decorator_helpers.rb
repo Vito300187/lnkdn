@@ -7,6 +7,7 @@ SPEED_OF_USER_MOUSE = 0.5
 module Helpers
   def ordinary_user_behaviour(methods)
     mouse_move
+    sleep 3
     methods
   end
 
@@ -25,5 +26,12 @@ module Helpers
       rand(100..800),
       rand(100..800)
     ], SPEED_OF_USER_MOUSE
+  end
+
+  def scroll_page_to(action)
+    puts "Scroll to #{action.to_s} page"
+
+    value = { up: -10000, down: 10000 }[action]
+    sleep 3; page.execute_script "window.scrollTo(0, #{value})"
   end
 end
