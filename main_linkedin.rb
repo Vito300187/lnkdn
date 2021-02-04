@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'spec_helper'
+require_relative 'spec_helpers'
 
 describe 'Add HR' do
   linkedin_home_page = Pages::LinkedinHomePage.new
