@@ -78,11 +78,13 @@ module Pages
       include Capybara::DSL
       include Helpers
 
+      attr_accessor :established_connect
+
       def initialize
         @add_a_note_button_name = 'Add a note'
         @add_a_note_textarea = '//textarea[contains(@id, "custom-message")]'
         @connect_button_name = 'Connect'
-        @established_connect_array = 0
+        @established_connect = 0
         @found_people_table = '//div[contains(@class, "search-results-container")]//li[contains(@class, "reusable-search__result-container ")]'
         @location_button_name = 'Locations'
         @make_a_contact = '//div[contains(@class, "entity-result__item")]//button'
@@ -143,13 +145,15 @@ module Pages
           next unless button_connect.text.eql?(@connect_button_name)
 
           pending_button_on_page_before = pending_button_on_page
-          button_connect.click
+          button_connect.click; sleep 3
           add_note_for_connect
           ordinary_user_behaviour(
             click_button(@send_connect_button_name)
           )
 
-          abort('Sorry, but current week is closed, for a set of connections') if weekly_invitation_limit?
+          if weekly_invitation_limit? || connection_problem?
+            abort('Sorry, but connection is closed, try after 1 hour')
+          end
 
           WaitUtil.wait_for_condition(
             'Connect button change to Pending',
@@ -157,7 +161,7 @@ module Pages
             delay_sec: 1
           ) { pending_button_on_page.eql?(pending_button_on_page_before + 1) }
 
-          @established_connect_array += 1
+          puts 'Connect is set'; self.established_connect += 1
         end
 
         ordinary_user_behaviour(
@@ -172,7 +176,11 @@ module Pages
           ordinary_user_behaviour(connect_with_hr)
         end
 
-        puts "Work ended, added #{@established_connect_array} people"
+        puts "Work ended, added #{@established_connect} people"
+      end
+
+      def connection_problem?
+        page.has_text?('Your connection request couldn’t be completed right now. Please try again later.')
       end
 
       def weekly_invitation_limit?

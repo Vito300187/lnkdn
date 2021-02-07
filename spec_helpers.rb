@@ -7,8 +7,6 @@ require 'pry'
 require 'waitutil'
 require 'selenium/webdriver'
 require 'mouse'
-require 'capybara-select-2'
-require 'nokogiri'
 
 Dir.glob('./pages_objects/*.rb', &method(:require))
 Dir.glob('./helpers/*.rb', &method(:require))

@@ -7,8 +7,8 @@ SPEED_OF_USER_MOUSE = 0.5
 module Helpers
   def ordinary_user_behaviour(methods)
     mouse_move
-    sleep 3
     methods
+    sleep 3
   end
 
   def speed_of_user_behavior
