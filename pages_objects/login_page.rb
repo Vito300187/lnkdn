@@ -18,7 +18,7 @@ module Pages
     end
 
     def sign_in_button_click
-      button = page.has_link?('Sign in') ? 'Sign in' : 'Войти'
+      button = page.has_button?('Sign in') ? 'Sign in' : 'Войти'
       click_button(button)
     end
 

@@ -12,10 +12,23 @@ Dir.glob('./helpers/*.rb', &method(:require))
 
 check_vpn_work
 
-Capybara.default_driver = ENV['HEADLESS'] ? :selenium_chrome_headless : :selenium_chrome
-Capybara.reset_sessions!
-
-RSpec.configure do
-  session_window = Capybara.page.driver.browser.manage.window
-  ENV['HEADLESS'] ? session_window.resize_to(1920, 1080) : session_window.maximize
+Capybara.register_driver :remote_chrome do |app|
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome
+  caps[:browser_name] = 'chrome'
+  caps[:version] = '88.0'
+  caps['enableVNC'] = true
+  opts = {
+    browser: :remote,
+    url: 'http://localhost:4444/wd/hub',
+    desired_capabilities: caps
+  }
+  Capybara::Selenium::Driver.new(app, opts)
 end
+
+Capybara.configure do |config|
+  config.default_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
+  config.javascript_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
+  config.default_max_wait_time = 10
+end
+
+RSpec.configure { Capybara.page.driver.browser.manage.window.maximize }
