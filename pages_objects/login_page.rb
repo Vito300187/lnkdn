@@ -7,33 +7,26 @@ module Pages
     include Capybara::DSL
     include Helpers
 
-    def initialize
-      @login_field_username = 'username'
-      @login = "//input[id=#{@login_field_username}]"
-
-      @login_field_password = 'password'
-      @password = "//input[id=#{@login_field_password}]"
-
-      @enter_button_name = 'Войти'
-      @confirm_button = "//button[contain(text(), #{@enter_button_name}]"
-    end
+    def initialize; end
 
     def input_login_field
-      fill_in(@login_field_username, with: MY_LOGIN)
+      fill_in('username', with: MY_LOGIN)
     end
 
     def input_password_field
-      fill_in(@login_field_password, with: MY_PASSWORD)
+      fill_in('password', with: MY_PASSWORD)
+    end
+
+    def sign_in_button_click
+      button = page.has_link?('Sign in') ? 'Sign in' : 'Войти'
+      click_button(button)
     end
 
     def sign_in
       puts "User #{MY_LOGIN} sign in"
 
-      [
-        input_login_field,
-        input_password_field,
-        click_button(@enter_button_name)
-      ].each { |fill_in| ordinary_user_behaviour(fill_in)}
+      [input_login_field, input_password_field].each { |method| slow_waiting_method(method) }
+      ordinary_user_behaviour(sign_in_button_click)
     end
   end
 end

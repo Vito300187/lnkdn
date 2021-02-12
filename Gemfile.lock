@@ -17,7 +17,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    mouse (4.0.3)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     pry (0.13.1)
@@ -54,7 +53,6 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  mouse (~> 4.0, >= 4.0.3)
   pry
   rspec
   selenium-webdriver

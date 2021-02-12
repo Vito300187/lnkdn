@@ -13,15 +13,15 @@ module Pages
         @messaging_header_chat = '//section[contains(@class, "msg-overlay-bubble-header__details")]'
         @search_job_field = '//input[contains(@id, "jobs-search-box-keyword-id")]'
         @search_location_field = '//input[contains(@id, "jobs-search-box-location-id")]'
-        @select_search_filter = '//ul[contains(@class, "search-vertical-filter__filters-list")]'
-        @select_search_filter_list = '//li[contains(@class, "search-vertical-filter__dropdown-list-item")]'
+        @select_search_filter = '//section[contains(@aria-label, "search filters")]//button[text()="Jobs"]'
+        @select_search_filter_list = '//li[contains(@class, "search") and contains(@class, "dropdown")]'
       end
 
       def collapse_message_chat
         if chat_expand?
           puts 'Collapse message chat'
 
-          ordinary_user_behaviour(
+          slow_waiting_method(
             find(:xpath, @messaging_header_chat).click
           )
         end
@@ -34,7 +34,7 @@ module Pages
       def search_job(job = MY_JOB)
         puts "Search job #{MY_JOB}"
 
-        ordinary_user_behaviour(
+        slow_waiting_method(
           find(:xpath, @search_job_field).set(job)
         )
       end
@@ -42,27 +42,23 @@ module Pages
       def search_location(location = MY_LOCATION)
         puts "Search location #{MY_LOCATION}"
 
-        ordinary_user_behaviour(
-          find(:xpath, @search_location_field).set(location).send_keys(:return)
-        )
+        find(:xpath, @search_location_field).set(location).send_keys(:return)
       end
 
       def change_filter_jobs_to(item)
         find(:xpath, @select_search_filter).click
         content_index = all(:xpath, @select_search_filter_list).index { |i| i.text.eql?(item) }
 
-        ordinary_user_behaviour(
-          all(:xpath, @select_search_filter_list)[content_index].click
-        )
+        all(:xpath, @select_search_filter_list)[content_index].click
       end
 
       def search_job_and_location
-        collapse_message_chat
         [
+          collapse_message_chat,
           search_job,
           search_location,
           change_filter_jobs_to('People')
-        ].each { |action| ordinary_user_behaviour(action) }
+        ].each { |method| slow_waiting_method(method) }
 
         puts "Found #{Pages::Search::People.new.results_count_on_page} HR"
 
@@ -104,7 +100,7 @@ module Pages
         fill_in('Add a location', with: MY_LOCATION)
 
         index = all(:xpath, @select_my_location).index { |i| i.text.include?(MY_LOCATION) }
-        ordinary_user_behaviour(
+        slow_waiting_method(
           all(:xpath, @select_my_location)[index].click
         )
         click_button(@show_result_button_name)
@@ -119,15 +115,18 @@ module Pages
       def add_a_cover_letter
         puts 'Add a cover letter'
 
-        click_button(@add_a_note_button_name)
-        ordinary_user_behaviour(
-          find(:xpath, @add_a_note_textarea).set(ADD_NOTE)
+        slow_waiting_method(
+          click_button(@add_a_note_button_name)
         )
+
+        find(:xpath, @add_a_note_textarea).set(ADD_NOTE)
       end
 
       def add_note_for_connect
         if ADD_NOTE
-          ordinary_user_behaviour(add_a_cover_letter)
+          slow_waiting_method(
+            add_a_cover_letter
+          )
           click_button(@send_connect_button_name)
         end
       end
@@ -145,9 +144,11 @@ module Pages
           next unless button_connect.text.eql?(@connect_button_name)
 
           pending_button_on_page_before = pending_button_on_page
-          button_connect.click; sleep 3
+          slow_waiting_method(
+            button_connect.click
+          )
           add_note_for_connect
-          ordinary_user_behaviour(
+          slow_waiting_method(
             click_button(@send_connect_button_name)
           )
 
@@ -164,7 +165,7 @@ module Pages
           puts 'Connect is set'; self.established_connect += 1
         end
 
-        ordinary_user_behaviour(
+        slow_waiting_method(
           click_pagination(@next_button_name)
         )
       end
@@ -173,7 +174,7 @@ module Pages
         puts 'Connect with HR'
 
         while pagination_button_active?(@next_button_name) || page_has_connect_buttons
-          ordinary_user_behaviour(connect_with_hr)
+          slow_waiting_method(connect_with_hr)
         end
 
         puts "Work ended, added #{@established_connect} people"
@@ -199,11 +200,12 @@ module Pages
       end
 
       def click_pagination(action)
-        pagination_button_active?(action) ? (puts "Click pagination button #{action}"; click_button(action)): false
+        pagination_button_active?(action) ? (puts "Click pagination button #{action}"; click_button(action)) : false
       end
 
       def pagination_button_active?(action)
-        [scroll_page_to(:down), scroll_page_to(:up)].each { |_| _ }
+        scroll_page_to(:down)
+        scroll_page_to(:up); slow_waiting
         find(:xpath, "//button[contains(@aria-label, '#{action}')]").disabled? ? false : true
       end
     end
