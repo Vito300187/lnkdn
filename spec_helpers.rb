@@ -26,9 +26,18 @@ Capybara.register_driver :remote_chrome do |app|
 end
 
 Capybara.configure do |config|
-  config.default_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
-  config.javascript_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
+  if ENV['HEADLESS']
+    config.default_driver = :selenium_chrome_headless
+    config.javascript_driver = :selenium_chrome_headless
+  elsif ENV['SELEN']
+    config.default_driver = :remote_chrome
+    config.javascript_driver = :remote_chrome
+  else
+    config.default_driver = :selenium_chrome
+    config.javascript_driver = :selenium_chrome
+  end
   config.default_max_wait_time = 10
+  config.app_host = 'https://www.linkedin.com'
 end
 
 def separate

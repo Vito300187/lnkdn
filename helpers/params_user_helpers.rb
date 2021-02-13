@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-LINKEDIN_HOME_PAGE_URL = 'https://www.linkedin.com'
 VPN_APPLICATION_URL = 'https://www.freeopenvpn.org or https://www.tunnelbear.com/download'
 
 MY_LOGIN = ENV['MY_LOGIN']

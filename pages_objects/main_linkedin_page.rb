@@ -25,8 +25,7 @@ module Pages
 
     def visit_home_page_linkedin
       puts 'Visit Linkedin'
-
-      visit LINKEDIN_HOME_PAGE_URL
+      visit('/')
     end
 
     def change_language
