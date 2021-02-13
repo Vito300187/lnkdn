@@ -22,7 +22,7 @@ Capybara.register_driver :remote_chrome do |app|
     url: 'http://localhost:4444/wd/hub',
     desired_capabilities: caps
   }
-  Capybara::Selenium::Driver.new(app, opts)
+  Capybara::Selenium::Driver.new(app, **opts)
 end
 
 Capybara.configure do |config|
