@@ -31,4 +31,22 @@ Capybara.configure do |config|
   config.default_max_wait_time = 10
 end
 
-RSpec.configure { Capybara.page.driver.browser.manage.window.maximize }
+def separate
+  puts '_'*20
+end
+
+def time(p)
+  puts "#{p} script #{Time.now.strftime('%d-%M-%Y %H:%M')}"
+end
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    separate; time('Start'); separate
+  end
+
+  config.after(:suite) do
+    separate; time('End'); separate
+  end
+
+  Capybara.page.driver.browser.manage.window.maximize
+end
