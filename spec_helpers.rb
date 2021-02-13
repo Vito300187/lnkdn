@@ -10,19 +10,12 @@ require 'selenium/webdriver'
 Dir.glob('./pages_objects/*.rb', &method(:require))
 Dir.glob('./helpers/*.rb', &method(:require))
 
-check_vpn_work
+def separate
+  puts '_'*20
+end
 
-Capybara.register_driver :remote_chrome do |app|
-  caps = Selenium::WebDriver::Remote::Capabilities.chrome
-  caps[:browser_name] = 'chrome'
-  caps[:version] = '88.0'
-  caps['enableVNC'] = true
-  opts = {
-    browser: :remote,
-    url: 'http://localhost:4444/wd/hub',
-    desired_capabilities: caps
-  }
-  Capybara::Selenium::Driver.new(app, **opts)
+def time(p)
+  puts "#{p} script #{Time.now.strftime('%d-%M-%Y %H:%M')}"
 end
 
 Capybara.configure do |config|
@@ -40,12 +33,19 @@ Capybara.configure do |config|
   config.app_host = 'https://www.linkedin.com'
 end
 
-def separate
-  puts '_'*20
-end
+check_vpn_work
 
-def time(p)
-  puts "#{p} script #{Time.now.strftime('%d-%M-%Y %H:%M')}"
+Capybara.register_driver :remote_chrome do |app|
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome
+  caps[:browser_name] = 'chrome'
+  caps[:version] = '88.0'
+  caps['enableVNC'] = true
+  opts = {
+    browser: :remote,
+    url: 'http://localhost:4444/wd/hub',
+    desired_capabilities: caps
+  }
+  Capybara::Selenium::Driver.new(app, **opts)
 end
 
 RSpec.configure do |config|
