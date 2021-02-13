@@ -15,7 +15,7 @@ def separate
 end
 
 def time(p)
-  puts "#{p} script #{Time.now.strftime('%d-%M-%Y %H:%M')}"
+  puts "#{p} script #{Time.now.strftime('%d-%m-%Y %H:%M')}"
 end
 
 Capybara.configure do |config|
