@@ -26,8 +26,8 @@ Capybara.register_driver :remote_chrome do |app|
 end
 
 Capybara.configure do |config|
-  config.default_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome_headless
-  config.javascript_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome_headless
+  config.default_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
+  config.javascript_driver = ENV['SELEN'] ? :remote_chrome : :selenium_chrome
   config.default_max_wait_time = 10
 end
 
