@@ -8,11 +8,11 @@ module Helpers
   end
 
   def slow_waiting
-    sleep 3
+    sleep rand(1..4)
   end
 
   def slow_waiting_method(method)
-    sleep 2; method; sleep 2
+    slow_waiting; method; slow_waiting
   end
 
   def scroll_page
