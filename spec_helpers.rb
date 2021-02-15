@@ -52,6 +52,10 @@ Capybara.register_driver :remote_chrome do |app|
   caps[:version] = browser_version
   caps['enableVNC'] = true
   caps['enableVideo'] = record_video?
+  # caps['videoName'] = 'example_name'
+  # caps['videoScreenSize'] = string
+  # caps['screenResolution'] = <width>x<height>x<colors-depth>
+  # caps['videoFrameRate'] = '24'
   opts = {
     browser: :remote,
     url: 'http://localhost:4444/wd/hub',
