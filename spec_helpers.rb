@@ -27,6 +27,7 @@ def browser_version
     .split(' ')
     .reject { |a| a.include?('Chrome') }[0]
     .to_f
+    .to_s
 end
 
 Capybara.configure do |config|
