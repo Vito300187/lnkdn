@@ -2,13 +2,12 @@ FROM ruby:2.7.0
 LABEL autor="Vitaly Kuzminov" \
       maintainer="Repz2010@gmail.com"
 
-EXPOSE 4444
-
 # Install Google Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
     apt-get update -y && \
-    apt-get install -y google-chrome-stable
+    apt-get install -y google-chrome-stable \
+    rm -rf /var/lib/apt/lists/*
 
 # Download and install Chromedriver
 WORKDIR /tmp
@@ -22,5 +21,3 @@ RUN mkdir /home/linkedin
 WORKDIR /home/linkedin
 COPY . .
 RUN bundle
-
-ENTRYPOINT ["rspec", "main_linkedin.rb"]

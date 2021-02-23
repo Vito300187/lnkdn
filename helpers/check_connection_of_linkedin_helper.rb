@@ -8,7 +8,7 @@ def check_vpn_work
     if Net::HTTP.get_response(URI(Capybara.app_host)).code.eql?('200')
       puts 'Connection with Linkedin is set'
     end
-  rescue Net::OpenTimeout
+  rescue Net::OpenTimeout, Errno::EADDRNOTAVAIL
     abort("Sorry, but for Linkedin, you need use VPN -> #{VPN_APPLICATION_URL}")
   end
 end
