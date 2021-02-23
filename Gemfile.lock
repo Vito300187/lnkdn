@@ -41,7 +41,7 @@ GEM
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
     rubyzip (2.3.0)
-    selenium-webdriver (3.142.7)
+    selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     waitutil (0.2.1)
@@ -55,7 +55,7 @@ DEPENDENCIES
   capybara
   pry
   rspec
-  selenium-webdriver
+  selenium-webdriver (~> 3.142, = 3.142.6)
   waitutil
 
 BUNDLED WITH
