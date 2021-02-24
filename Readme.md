@@ -19,7 +19,7 @@
 Актуальную версию для скачивания(Latest stable release), можно найти по ссылке `https://chromedriver.chromium.org`
 
 Есть 2 версии образов докер, с предустановленным набором lib и драйверов, для удобства использовния.
-Docker образ, с полной версией хрома и полноценной Ubuntu:
+Docker образ, с полной версией хрома и полноценной Debian:
 - ruby 2.7.0
 - последние стабильные версии chrome и chromedriver (не захаркоженные)
 `docker pull kuzminow/linkedin_chrome:linkedin`
