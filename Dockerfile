@@ -12,3 +12,5 @@ RUN mkdir /home/linkedin
 WORKDIR /home/linkedin
 COPY . .
 RUN bundle
+
+WORKDIR /tmp
