@@ -22,9 +22,9 @@
 Docker образ, с полной версией хрома и полноценной Ubuntu:
 - ruby 2.7.0
 - последние стабильные версии chrome и chromedriver (не захаркоженные)
-`docker pull kuzminow/linkedin_chrome`
+`docker pull kuzminow/linkedin_chrome:linkedin`
 
 Облегченный Docker образ:
 - с установленным alpine-ruby-2.7.0
 - с загрузкой и установкой свежей версии, chromium и chromium-chromedriver (не захаркоженные)
-`docker pull kuzminow/linkedin_chromium` 
+`docker pull kuzminow/linkedin_chromium:latest` 
